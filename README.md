@@ -12,12 +12,13 @@ This project is made as the group term project for CPSC475-020 Database Manageme
 2. ~~Admin DB manipulation~~
 3. ~~Graphical display of time series~~
 4. ~~CLI csv uploads~~
-5. FE user cdv uploads (Advanced Feature)
-6. Time series decomposition graph
-7. Autocorreleogram
-8. Manual addition of time series and points in FE
-9. *Time series comparison (multiple series on one graph)*
-10. *Cross-correlogram*
+5. Time series decomposition graph
+6. Autocorreleogram
+7. FE login (to protect the DB from FE features)
+8. FE user csv uploads (Advanced Feature)
+9. Manual addition of time series and points in FE
+10. *Time series comparison (multiple series on one graph)*
+11. *Cross-correlogram*
 
 [^1]: Lines with strikethrough are completed.
     Italicized lines may not be completed, are optional
@@ -29,5 +30,20 @@ This project is made as the group term project for CPSC475-020 Database Manageme
 * Jo Richmond <jr362@uakron.edu>
 * Connor Jewell <cj128@uakron.edu>
 * Raymond Jindra <rj103@uakron.edu>
+
+## Techstack
+
+* Frontend - React.js, created using create-react-app.
+    - Language: JavaScript / JSX
+    - Server: nginx
+* Backend - Django
+    - Language: Python
+    - Server: Built-in dev server[^2]
+* Database - MySQL
+* OS used for containers: Ubuntu
+* Other tools - Docker for containerization, Git for version control.
+    - Bash component is a script for backend startup that auto-seeds the database with provided .csv files if the db is empty.
+
+[^2]: This will change for production, but we don't know what to swap to so we'll cross that bridge when we get to it.
 
 ###### This is the development README, usage docs will be added to this document upon release 1.0.
