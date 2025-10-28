@@ -3,4 +3,4 @@
 /backend/api/__pycache__/
 /backend/mysite/__pycache__/
 /frontend/node_modules/
-/frontend/build/
+/frontend/build/venv/

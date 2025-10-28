@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import SeriesList from "./SeriesList";
 import ForecastForm from "./ForecastForm";
 import ChartView from "./ChartView";
+import './App.css';
 
 const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:8000/api";
 
