@@ -50,7 +50,7 @@ function App() {
   return (
     <div style={{padding:20, fontFamily:"Arial, sans-serif"}}>
       <a href="http://localhost:8000/admin" target="_blank" rel="noreferrer">Go to Admin</a>
-      <h1>Time Series Forecaster</h1>
+      <h1 className="app-title">Time Series Forecaster</h1>
       <div style={{display:"flex", gap:20}}>
         <div style={{width:300}}>
           <SeriesList series={series} onSelect={loadSeries} apiBase={API_BASE} onCreated={()=>{
