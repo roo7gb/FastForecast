@@ -21,36 +21,43 @@ export default function SeriesList({ series, onSelect, apiBase, onCreated }) {
   }
 
   return (
-    <div className="card glowing-container">
-      <h3 className="section-title">Series</h3>
-      <ul style={{ listStyle: "none", padding: 0 }}>
-        {series.map((s) => (
-          <li key={s.name} style={{ marginBottom: "8px" }}>
-            <button className="series-button" onClick={() => onSelect(s.name)}>
-              {s.name}
-            </button>
-          </li>
-        ))}
-      </ul>
+    <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
 
-      <h4 className="section-title">Create Series</h4>
-      <input
-        className="input-field"
-        placeholder="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <br />
-      <input
-        className="input-field"
-        placeholder="Description"
-        value={desc}
-        onChange={(e) => setDesc(e.target.value)}
-      />
-      <br />
-      <button className="create-button" onClick={createSeries}>
-        Create
-      </button>
+      {/* Box 1: Create Series */}
+      <div className="card">
+        <h3 className="section-title">Create Series</h3>
+        <input
+          className="input-field"
+          placeholder="Series Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <br />
+        <input
+          className="input-field"
+          placeholder="Description"
+          value={desc}
+          onChange={(e) => setDesc(e.target.value)}
+        />
+        <br />
+        <button className="create-button" onClick={createSeries}>
+          Create
+        </button>
+      </div>
+
+      {/* Box 2: Existing Series List */}
+      <div className="card">
+        <h3 className="section-title">Available Series</h3>
+        <ul style={{ listStyle: "none", padding: 0 }}>
+          {series.map((s) => (
+            <li key={s.name} style={{ marginBottom: "8px" }}>
+              <button className="series-button" onClick={() => onSelect(s.name)}>
+                {s.name}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
