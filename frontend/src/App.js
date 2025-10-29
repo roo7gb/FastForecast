@@ -19,61 +19,42 @@ function App() {
   }, []);
 
   function loadSeries(name) {
-    // fetch series with points
     fetch(`${API_BASE}/series/${name}/`)
       .then(res => res.json())
       .then(data => {
         setSelectedSeries(data);
-        setHistory(data.points.map(p => ({timestamp: p.timestamp, value: p.value})));
-        setForecast([]);
+        setHistory(data.points.map(p => ({ timestamp: p.timestamp, value: p.value })));
+        setForecast([]); // Forecast disabled for now
       });
   }
 
-  function runForecast(params) {
-    fetch(`${API_BASE}/forecast/`, {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify(params)
-    }).then(async res => {
-      if (!res.ok) {
-        const err = await res.json();
-        alert("Forecast failed: " + (err.detail || err.error || JSON.stringify(err)));
-        return;
-      }
-      const data = await res.json();
-      console.log(data);
-      setHistory(data.history);
-      setForecast(data.forecast);
-    }).catch(e => alert("Forecast failed: " + e.message));
-  }
-
   return (
-    <div style={{padding:20, fontFamily:"Arial, sans-serif"}}>
+    <div style={{ padding: 20, fontFamily: "Arial, sans-serif" }}>
       <a href="http://localhost:8000/admin" target="_blank" rel="noreferrer">Go to Admin</a>
       <h1 className="app-title">Time Series Forecaster</h1>
-      <div style={{display:"flex", gap:20}}>
-        <div style={{width:300}}>
-          <SeriesList series={series} onSelect={loadSeries} apiBase={API_BASE} onCreated={()=>{
-            // reload list
-            fetch(`${API_BASE}/series/`).then(r=>r.json()).then(d=>setSeries(d));
-          }}/>
-        </div>
 
-        <div style={{flex:1}}>
-          {selectedSeries ? (
-            <>
-              <h2>Series: {selectedSeries.name}</h2>
-              <p>{selectedSeries.description}</p>
-
-              <ForecastForm onForecast={runForecast} />
-
-              <ChartView history={history} forecast={forecast} />
-            </>
-          ) : (
-            <div>Select a series to view and forecast</div>
-          )}
-        </div>
+      {/* Series Selector Box (Compact and Centered) */}
+      <div style={{ maxWidth: "400px", margin: "0 auto", textAlign: "center" }}>
+        <SeriesList
+          series={series}
+          onSelect={loadSeries}
+          apiBase={API_BASE}
+          onCreated={() => {
+            fetch(`${API_BASE}/series/`).then(r => r.json()).then(d => setSeries(d));
+          }}
+        />
       </div>
+
+      {/* Full-Width Chart (Wider, Centered Below) */}
+      {selectedSeries ? (
+        <div style={{ maxWidth: "1200px", margin: "40px auto 0 auto" }}>
+          <ChartView history={history} forecast={forecast} />
+        </div>
+      ) : (
+        <div style={{ textAlign: "center", marginTop: "20px" }}>
+          Select a series to view and forecast
+        </div>
+      )}
     </div>
   );
 }
