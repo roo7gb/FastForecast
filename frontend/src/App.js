@@ -12,14 +12,14 @@ function App() {
   const [history, setHistory] = useState([]);
   const [forecast, setForecast] = useState([]);
 
-  // Load available series when app loads
+  // Load series when app starts
   useEffect(() => {
     fetch(`${API_BASE}/series/`)
       .then((res) => res.json())
       .then((data) => setSeries(data));
   }, []);
 
-  // Load selected series
+  // Load a selected series
   function loadSeries(name) {
     fetch(`${API_BASE}/series/${name}/`)
       .then((res) => res.json())
@@ -31,11 +31,11 @@ function App() {
             value: p.value,
           }))
         );
-        setForecast([]); // Clear forecast when switching series
+        setForecast([]); // Clear forecast when changing series
       });
   }
 
-  // Run forecast when form is submitted
+  // Run forecast using ForecastForm parameters
   function runForecast(params) {
     if (!selectedSeries) {
       alert("Please select a series first.");
@@ -69,7 +69,7 @@ function App() {
       {/* Title */}
       <h1 className="app-title">Time Series Forecaster</h1>
 
-      {/* Main glowing container */}
+      {/* Main Glowing Container */}
       <div
         className="glowing-container"
         style={{
@@ -78,7 +78,7 @@ function App() {
           padding: "20px",
         }}
       >
-        {/* STEP 1 & 2: Create Series + Series List (vertically stacked) */}
+        {/* STEP 1 & 2: Create Series + Existing Series List (always visible) */}
         <SeriesList
           series={series}
           onSelect={loadSeries}
@@ -90,12 +90,14 @@ function App() {
           }}
         />
 
-        {/* STEP 3: Forecast Form (only active after series selected) */}
-        <div style={{ marginTop: "30px" }}>
-          <ForecastForm onForecast={runForecast} />
-        </div>
+        {/* STEP 3: ForecastForm (only visible after a series is selected) */}
+        {selectedSeries && (
+          <div style={{ marginTop: "30px" }}>
+            <ForecastForm onForecast={runForecast} />
+          </div>
+        )}
 
-        {/* STEP 4: Chart (only shown if a series is selected) */}
+        {/* STEP 4: Chart (only visible after series is selected) */}
         <div style={{ marginTop: "30px" }}>
           {selectedSeries ? (
             <ChartView history={history} forecast={forecast} />

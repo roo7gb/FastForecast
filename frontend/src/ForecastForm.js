@@ -1,55 +1,104 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
-export default function ForecastForm({ onRun }) {
-  const [method, setMethod] = useState("additive");
-  const [periods, setPeriods] = useState(10);
-  const [confidence, setConfidence] = useState(95);
+export default function ForecastForm({ onForecast }) {
+  const [series, setSeries] = useState("");
+  const [trend, setTrend] = useState("add");
+  const [seasonal, setSeasonal] = useState("add");
+  const [seasonalPeriods, setSeasonalPeriods] = useState(12);
+  const [forecastSteps, setForecastSteps] = useState(12);
+  const [logTransform, setLogTransform] = useState(false);
 
-  function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onRun({
-      method,
-      periods: Number(periods),
-      confidence: Number(confidence),
-    });
-  }
+
+    const payload = {
+      series,
+      trend,
+      seasonal,
+      seasonal_periods: seasonalPeriods,
+      forecast_steps: forecastSteps,
+      log_transform: logTransform,
+    };
+    onForecast(payload);
+  };
 
   return (
-    <div className="card" style={{
-      backgroundColor: "white",
-      padding: "20px",
-      borderRadius: "8px",
-      border: "1px solid #ccc",
-      maxWidth: "400px",
-      margin: "0 auto"
-    }}>
-      <h3>Forecast Settings</h3>
-      <form onSubmit={handleSubmit}>
-        <label>Method:</label>
-        <select value={method} onChange={(e) => setMethod(e.target.value)}>
-          <option value="additive">Additive</option>
-          <option value="multiplicative">Multiplicative</option>
+    <form onSubmit={handleSubmit} className="space-y-4 p-4" style={{ backgroundColor: "transparent", border: "none" }}>
+      <div>
+        <label>Series Name:</label>
+        <input
+          type="text"
+          value={series}
+          onChange={(e) => setSeries(e.target.value)}
+          required
+          className="border p-1 rounded ml-2"
+        />
+      </div>
+
+      <div>
+        <label>Trend:</label>
+        <select
+          value={trend}
+          onChange={(e) => setTrend(e.target.value)}
+          className="border p-1 rounded ml-2"
+        >
+          <option value="add">Additive</option>
+          <option value="mul">Multiplicative</option>
+          <option value="">None</option>
         </select>
-        <br />
+      </div>
 
-        <label>Forecast Periods:</label>
+      <div>
+        <label>Seasonal:</label>
+        <select
+          value={seasonal}
+          onChange={(e) => setSeasonal(e.target.value)}
+          className="border p-1 rounded ml-2"
+        >
+          <option value="add">Additive</option>
+          <option value="mul">Multiplicative</option>
+          <option value="">None</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Seasonal Periods:</label>
         <input
           type="number"
-          value={periods}
-          onChange={(e) => setPeriods(e.target.value)}
+          value={seasonalPeriods}
+          onChange={(e) => setSeasonalPeriods(Number(e.target.value))}
+          min={1}
+          className="border p-1 rounded ml-2 w-20"
         />
-        <br />
+      </div>
 
-        <label>Confidence Interval (%):</label>
+      <div>
+        <label>Forecast Steps:</label>
         <input
           type="number"
-          value={confidence}
-          onChange={(e) => setConfidence(e.target.value)}
+          value={forecastSteps}
+          onChange={(e) => setForecastSteps(Number(e.target.value))}
+          min={1}
+          className="border p-1 rounded ml-2 w-20"
         />
-        <br />
+      </div>
 
-        <button type="submit">Run Forecast</button>
-      </form>
-    </div>
+      <div className="flex items-center">
+        <input
+          type="checkbox"
+          checked={logTransform}
+          onChange={(e) => setLogTransform(e.target.checked)}
+          className="mr-2"
+        />
+        <label>Log-transform (stabilize variance, positive values only)</label>
+      </div>
+
+      <button
+        type="submit"
+        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+      >
+        Forecast
+      </button>
+    </form>
   );
 }
