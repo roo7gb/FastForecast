@@ -8,6 +8,25 @@
   box-shadow: 0 0 15px rgba(0, 243, 255, 0.1);
 }
 
+.glowing-container {
+  padding: 20px;
+  border-radius: 12px;
+  position: relative;
+  background: #0a0a0a; /* keeps dark theme */
+  box-shadow:
+    0 0 10px rgba(128, 0, 255, 0.5),
+    0 0 20px rgba(128, 0, 255, 0.3),
+    0 0 40px rgba(128, 0, 255, 0.2);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.glowing-container:hover {
+  box-shadow:
+    0 0 15px rgba(170, 0, 255, 0.8),
+    0 0 30px rgba(170, 0, 255, 0.6),
+    0 0 50px rgba(170, 0, 255, 0.4);
+}
+
 /* Neon Section Title */
 .section-title {
   color: var(--accent-primary);

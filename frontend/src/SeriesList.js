@@ -21,7 +21,7 @@ export default function SeriesList({ series, onSelect, apiBase, onCreated }) {
   }
 
   return (
-    <div className="card">
+    <div className="card glowing-container">
       <h3 className="section-title">Series</h3>
       <ul style={{ listStyle: "none", padding: 0 }}>
         {series.map((s) => (
