@@ -36,27 +36,23 @@ function App() {
   }
 
   // Run forecast using ForecastForm parameters
+  
   function runForecast(params) {
-    if (!selectedSeries) {
-      alert("Please select a series first.");
-      return;
-    }
     fetch(`${API_BASE}/forecast/`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        series: selectedSeries.name,
-        ...params,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.forecast_points) {
-          setForecast(data.forecast_points);
-        } else {
-          alert("Error running forecast.");
-        }
-      });
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify(params)
+    }).then(async res => {
+      if (!res.ok) {
+        const err = await res.json();
+        alert("Forecast failed: " + (err.detail || err.error || JSON.stringify(err)));
+        return;
+      }
+      const data = await res.json();
+      console.log(data);
+      setHistory(data.history);
+      setForecast(data.forecast);
+    }).catch(e => alert("Forecast failed: " + e.message));
   }
 
   return (
