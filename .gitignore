@@ -4,4 +4,4 @@
 /backend/mysite/__pycache__/
 /frontend/node_modules/
 /frontend/build/
-/node_modules/
+/frontend/.env

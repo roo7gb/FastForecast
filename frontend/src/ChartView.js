@@ -85,7 +85,7 @@ export default function ChartView({ history = [], forecast = [] }) {
         max: forecast.length > 0 ? new Date(forecast[forecast.length - 1].timestamp) : new Date(history[history.length - 1].timestamp)
       },
       y: {
-        title: { display: true, text: "Value" },
+        title: { display: true, text: "Concentration" },
         beginAtZero: false,
         min: undefined,
         max: undefined
