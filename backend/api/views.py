@@ -10,6 +10,7 @@ from statsmodels.tsa.holtwinters import ExponentialSmoothing
 from django.utils.dateparse import parse_datetime
 from datetime import timedelta
 from django.db import connection, reset_queries
+from statsmodels.tsa.stattools import acf
 
 class SeriesViewSet(viewsets.ModelViewSet):
     queryset = Series.objects.all()
@@ -142,3 +143,52 @@ def forecast_view(request):
     }
 
     return Response(result, status=200)
+
+@api_view(['POST'])
+def acf_view(request):
+    body = request.data
+    series_name = body.get("series")
+    nlags = int(body.get("nlags", 40))
+
+    if not series_name:
+        return Response({"error": "series is required"}, status=400)
+
+    s = get_object_or_404(Series, name=series_name)
+    points = s.points.all()
+
+    if body.get("start"):
+        dt = parse_datetime(body["start"])
+        if dt:
+            points = points.filter(timestamp__gte=dt)
+
+    if body.get("end"):
+        dt = parse_datetime(body["end"])
+        if dt:
+            points = points.filter(timestamp__lte=dt)
+
+    if points.count() < 2:
+        return Response({"error": "not enough data points"}, status=400)
+
+    df = pd.DataFrame(list(points.values("timestamp", "value")))
+    df["timestamp"] = pd.to_datetime(df["timestamp"])
+    df = df.sort_values("timestamp").set_index("timestamp")
+    ts = df["value"]
+
+    N = len(ts)
+
+    try:
+        acf_values = acf(ts, nlags=nlags, fft=True)
+    except Exception as e:
+        return Response({"error": "ACF computation failed", "detail": str(e)}, status=400)
+
+    ci = 1.96 / (N ** 0.5)
+
+    data = [{"lag": i, "acf": float(acf_values[i])} for i in range(len(acf_values))]
+
+    return Response({
+        "series": series_name,
+        "acf": data,
+        "nlags": nlags,
+        "ci_upper": ci,
+        "ci_lower": -ci
+    })
