@@ -11,6 +11,7 @@ from django.utils.dateparse import parse_datetime
 from datetime import timedelta
 from django.db import connection, reset_queries
 from statsmodels.tsa.stattools import acf
+from statsmodels.tsa.seasonal import seasonal_decompose
 
 class SeriesViewSet(viewsets.ModelViewSet):
     queryset = Series.objects.all()
@@ -192,3 +193,56 @@ def acf_view(request):
         "ci_upper": ci,
         "ci_lower": -ci
     })
+
+@api_view(["POST"])
+def decompose_view(request):
+    """
+    POST /api/decompose/
+    {
+      "series": "sales",
+      "period": 12,
+      "model": "additive" | "multiplicative"
+    }
+    """
+    body = request.data
+    name = body.get("series")
+    period = int(body.get("period", 12))
+    model = body.get("model", "additive")
+
+    if not name:
+        return Response({"error": "series is required"}, status=400)
+
+    s = get_object_or_404(Series, name=name)
+    points = s.points.all().order_by("timestamp")
+
+    if points.count() < period * 2:
+        return Response({"error": "not enough data to decompose"}, status=400)
+
+    df = pd.DataFrame(list(points.values("timestamp", "value")))
+    df["timestamp"] = pd.to_datetime(df["timestamp"])
+    df = df.sort_values("timestamp").set_index("timestamp")
+
+    ts = df["value"]
+
+    try:
+        result = seasonal_decompose(ts, model=model, period=period)
+    except Exception as e:
+        return Response({"error": str(e)}, status=400)
+
+    # Convert to JSON
+    def to_list(series):
+        return [
+            {"timestamp": idx.isoformat(), "value": float(val) if pd.notnull(val) else None}
+            for idx, val in series.items()
+        ]
+
+    return Response({
+        "series": name,
+        "observed": to_list(result.observed),
+        "trend": to_list(result.trend),
+        "seasonal": to_list(result.seasonal),
+        "residual": to_list(result.resid),
+        "period": period,
+        "model": model,
+    })
+

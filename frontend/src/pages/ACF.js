@@ -40,7 +40,7 @@ export default function AcfPage() {
             type: "line",
             yMin: ciUpper,
             yMax: ciUpper,
-            borderColor: "red",
+            borderColor: "#FF6F61",
             borderWidth: 1.5,
             borderDash: [5, 5],
             label: {
@@ -52,7 +52,7 @@ export default function AcfPage() {
             type: "line",
             yMin: ciLower,
             yMax: ciLower,
-            borderColor: "red",
+            borderColor: "#FF6F61",
             borderWidth: 1.5,
             borderDash: [5, 5],
             label: {
@@ -88,6 +88,8 @@ export default function AcfPage() {
           {
             label: "ACF",
             data: acfData.map(d => d.acf),
+            borderColor: "#8884d8",
+            backgroundColor: "#8884d8",
             borderWidth: 1
           }
         ]

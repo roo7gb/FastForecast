@@ -12,8 +12,8 @@ This project is made as the group term project for CPSC475-020 Database Manageme
 2. ~~Admin DB manipulation~~
 3. ~~Graphical display of time series~~
 4. ~~CLI csv uploads~~
-5. Time series decomposition graph
-6. Autocorreleogram
+5. ~~Time series decomposition graph~~
+6. ~~Autocorreleogram~~
 7. FE login (to protect the DB from FE features)
 8. FE user csv uploads (Advanced Feature)
 9. Manual addition of time series and points in FE

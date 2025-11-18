@@ -2,9 +2,9 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "./pages/Home";
 import Forecast from "./pages/Forecast";
-import Admin from "./pages/ACF";
 import About from "./pages/About";
 import ACF from "./pages/ACF";
+import Decomposition from "./pages/Decomposition";
 
 export default function App() {
   return (
@@ -13,6 +13,7 @@ export default function App() {
         <Link to="/" style={{ marginRight: 15 }}>Home</Link>
         <Link to="/forecast" style={{ marginRight: 15 }}>Forecast</Link>
         <Link to="/acf" style={{ marginRight: 15 }}>ACF</Link>
+        <Link to="/decomposition" style={{ marginRight: 15 }}>Decomposition</Link>
         <Link to="/about">About</Link>
       </nav>
 
@@ -21,6 +22,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/forecast" element={<Forecast />} />
           <Route path="/acf" element={<ACF />} />
+          <Route path="/decomposition" element={<Decomposition />} />
           <Route path="/about" element={<About />} />
         </Routes>
       </div>
