@@ -1,30 +1,25 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { login } from "../auth";
+import { signup } from "../auth";
 
-export default function LoginPage() {
+export default function SignupPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
-  const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const result = await login(username, password);
+    const result = await signup(username, password);
     if (result.error) setMsg(result.error);
-    else {
-      setMsg("Login successful!");
-      navigate("/");
-    }
+    else setMsg("Signup successful! You can now log in.");
   }
 
   return (
     <div>
-      <h2>Login</h2>
+      <h2>Create Account</h2>
       <form onSubmit={handleSubmit}>
         <input value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" />
         <input value={password} onChange={e => setPassword(e.target.value)} type="password" placeholder="Password" />
-        <button type="submit">Log In</button>
+        <button type="submit">Sign Up</button>
       </form>
       <p>{msg}</p>
     </div>

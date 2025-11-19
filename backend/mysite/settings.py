@@ -56,7 +56,16 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True #for development only, adjust for production
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+CSRF_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+CSRF_HTTP_ONLY = False
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SAMESITE = 'Lax'
 
 ROOT_URLCONF = 'mysite.urls'
 
