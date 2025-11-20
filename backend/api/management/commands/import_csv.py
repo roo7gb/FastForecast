@@ -1,3 +1,12 @@
+#────────────────────────────────────────────────────────#
+#                                                        #
+# import_csv.py                                          #   
+# Script to import csv files to the database from CLI    #
+#                                                        #
+# Author: Jo Richmond                                    #
+#                                                        #
+#────────────────────────────────────────────────────────#
+
 from django.core.management.base import BaseCommand
 from api.models import Series, DataPoint
 import pandas as pd

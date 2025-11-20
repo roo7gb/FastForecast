@@ -1,3 +1,12 @@
+#────────────────────────────────────────────────────────#
+#                                                        #
+# auth_views.py                                          #   
+# API views for accounts, CSRF, and session verification #
+#                                                        #
+# Author: Jo Richmond                                    #
+#                                                        #
+#────────────────────────────────────────────────────────#
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.http import JsonResponse

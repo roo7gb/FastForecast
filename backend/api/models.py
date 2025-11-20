@@ -1,3 +1,12 @@
+#────────────────────────────────────────────────────────#
+#                                                        #
+# models.py                                              #   
+# Defines the tables for time series in the database     #
+#                                                        #
+# Author: Jo Richmond                                    #
+#                                                        #
+#────────────────────────────────────────────────────────#
+
 from django.db import models
 
 class Series(models.Model):

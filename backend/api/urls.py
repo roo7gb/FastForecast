@@ -1,3 +1,12 @@
+#────────────────────────────────────────────────────────#
+#                                                        #
+# urls.py                                                #   
+# Defines the URLs for the application's API             #
+#                                                        #
+# Author: Jo Richmond                                    #
+#                                                        #
+#────────────────────────────────────────────────────────#
+
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import SeriesViewSet, DataPointViewSet, forecast_view, acf_view, decompose_view

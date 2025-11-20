@@ -1,3 +1,11 @@
+#────────────────────────────────────────────────────────#
+#                                                        #
+# views.py                                               #   
+# API views for time series data management and analysis #
+#                                                        #
+# Author: Jo Richmond                                    #
+#                                                        #
+#────────────────────────────────────────────────────────#
 from rest_framework import viewsets, status
 from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
@@ -29,7 +37,9 @@ class DataPointViewSet(viewsets.ModelViewSet):
             qs = qs.filter(series__name=series_name)
         return qs
 
-
+# ─────────────────────────────
+# FORECAST
+# ─────────────────────────────
 @api_view(['POST'])
 def forecast_view(request):
     """
@@ -145,6 +155,9 @@ def forecast_view(request):
 
     return Response(result, status=200)
 
+# ─────────────────────────────
+# AUTOCORRELATION FUNCTION
+# ─────────────────────────────
 @api_view(['POST'])
 def acf_view(request):
     body = request.data
@@ -194,6 +207,9 @@ def acf_view(request):
         "ci_lower": -ci
     })
 
+# ─────────────────────────────
+# DECOMPOSITION
+# ─────────────────────────────
 @api_view(["POST"])
 def decompose_view(request):
     """

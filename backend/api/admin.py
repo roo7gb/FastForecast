@@ -1,3 +1,12 @@
+#────────────────────────────────────────────────────────#
+#                                                        #
+# admin.py                                               #   
+# Registers DB elements for manipulation in admin site   #
+#                                                        #
+# Author: Jo Richmond                                    #
+#                                                        #
+#────────────────────────────────────────────────────────#
+
 from django.contrib import admin
 from .models import Series, DataPoint
 
