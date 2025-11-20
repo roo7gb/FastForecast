@@ -1,3 +1,11 @@
+/*
+
+    index.js
+
+    The main page of the site. Auto-generated on project creation.
+
+*/
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
