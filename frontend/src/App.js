@@ -4,13 +4,10 @@ import ForecastForm from "./ForecastForm";
 import ChartView from "./ChartView";
 import "./App.css";
 
-const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:8000/api";
+    App.js
 
-function App() {
-  const [series, setSeries] = useState([]);
-  const [selectedSeries, setSelectedSeries] = useState(null);
-  const [history, setHistory] = useState([]);
-  const [forecast, setForecast] = useState([]);
+    Routes to the other pages in the website, is the virtual DOM node
+    that is rendered in index.js.
 
   // Load series when app starts
   useEffect(() => {
@@ -105,5 +102,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

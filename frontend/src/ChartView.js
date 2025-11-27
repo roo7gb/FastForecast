@@ -1,14 +1,26 @@
+/*
+
+    ChartView.js
+
+    Defines the chart used for the page for Time Series viewing
+    and forecasting. Gets its own file due to it updating its render
+    to add points, unlike the other charts on other pages.
+
+    author: Jo Richmond
+
+*/
+
 import React, { useMemo } from "react";
 import { Line } from "react-chartjs-2";
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  TimeScale,
-  Tooltip,
-  Legend
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    TimeScale,
+    Tooltip,
+    Legend
 } from "chart.js";
 import 'chartjs-adapter-date-fns';
 

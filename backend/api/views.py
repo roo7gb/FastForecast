@@ -1,3 +1,11 @@
+#────────────────────────────────────────────────────────#
+#                                                        #
+# views.py                                               #   
+# API views for time series data management and analysis #
+#                                                        #
+# Author: Jo Richmond                                    #
+#                                                        #
+#────────────────────────────────────────────────────────#
 from rest_framework import viewsets, status
 from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
@@ -10,6 +18,8 @@ from statsmodels.tsa.holtwinters import ExponentialSmoothing
 from django.utils.dateparse import parse_datetime
 from datetime import timedelta
 from django.db import connection, reset_queries
+from statsmodels.tsa.stattools import acf
+from statsmodels.tsa.seasonal import seasonal_decompose
 
 class SeriesViewSet(viewsets.ModelViewSet):
     queryset = Series.objects.all()
@@ -27,7 +37,9 @@ class DataPointViewSet(viewsets.ModelViewSet):
             qs = qs.filter(series__name=series_name)
         return qs
 
-
+# ─────────────────────────────
+# FORECAST
+# ─────────────────────────────
 @api_view(['POST'])
 def forecast_view(request):
     """
@@ -142,3 +154,111 @@ def forecast_view(request):
     }
 
     return Response(result, status=200)
+
+# ─────────────────────────────
+# AUTOCORRELATION FUNCTION
+# ─────────────────────────────
+@api_view(['POST'])
+def acf_view(request):
+    body = request.data
+    series_name = body.get("series")
+    nlags = int(body.get("nlags", 40))
+
+    if not series_name:
+        return Response({"error": "series is required"}, status=400)
+
+    s = get_object_or_404(Series, name=series_name)
+    points = s.points.all()
+
+    if body.get("start"):
+        dt = parse_datetime(body["start"])
+        if dt:
+            points = points.filter(timestamp__gte=dt)
+
+    if body.get("end"):
+        dt = parse_datetime(body["end"])
+        if dt:
+            points = points.filter(timestamp__lte=dt)
+
+    if points.count() < 2:
+        return Response({"error": "not enough data points"}, status=400)
+
+    df = pd.DataFrame(list(points.values("timestamp", "value")))
+    df["timestamp"] = pd.to_datetime(df["timestamp"])
+    df = df.sort_values("timestamp").set_index("timestamp")
+    ts = df["value"]
+
+    N = len(ts)
+
+    try:
+        acf_values = acf(ts, nlags=nlags, fft=True)
+    except Exception as e:
+        return Response({"error": "ACF computation failed", "detail": str(e)}, status=400)
+
+    ci = 1.96 / (N ** 0.5)
+
+    data = [{"lag": i, "acf": float(acf_values[i])} for i in range(len(acf_values))]
+
+    return Response({
+        "series": series_name,
+        "acf": data,
+        "nlags": nlags,
+        "ci_upper": ci,
+        "ci_lower": -ci
+    })
+
+# ─────────────────────────────
+# DECOMPOSITION
+# ─────────────────────────────
+@api_view(["POST"])
+def decompose_view(request):
+    """
+    POST /api/decompose/
+    {
+      "series": "sales",
+      "period": 12,
+      "model": "additive" | "multiplicative"
+    }
+    """
+    body = request.data
+    name = body.get("series")
+    period = int(body.get("period", 12))
+    model = body.get("model", "additive")
+
+    if not name:
+        return Response({"error": "series is required"}, status=400)
+
+    s = get_object_or_404(Series, name=name)
+    points = s.points.all().order_by("timestamp")
+
+    if points.count() < period * 2:
+        return Response({"error": "not enough data to decompose"}, status=400)
+
+    df = pd.DataFrame(list(points.values("timestamp", "value")))
+    df["timestamp"] = pd.to_datetime(df["timestamp"])
+    df = df.sort_values("timestamp").set_index("timestamp")
+
+    ts = df["value"]
+
+    try:
+        result = seasonal_decompose(ts, model=model, period=period)
+    except Exception as e:
+        return Response({"error": str(e)}, status=400)
+
+    # Convert to JSON
+    def to_list(series):
+        return [
+            {"timestamp": idx.isoformat(), "value": float(val) if pd.notnull(val) else None}
+            for idx, val in series.items()
+        ]
+
+    return Response({
+        "series": name,
+        "observed": to_list(result.observed),
+        "trend": to_list(result.trend),
+        "seasonal": to_list(result.seasonal),
+        "residual": to_list(result.resid),
+        "period": period,
+        "model": model,
+    })
+

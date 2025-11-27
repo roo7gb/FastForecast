@@ -1,8 +1,19 @@
+/*
+
+    SeriesList.js
+
+    Defines the interactive list of Time Series displayed on
+    the Forecasting/Viewing page.
+
+    author: Jo Richmond
+
+*/
+
 import React, { useState } from "react";
 
 export default function SeriesList({ series, onSelect, apiBase, onCreated }) {
-  const [name, setName] = useState("");
-  const [desc, setDesc] = useState("");
+    const [name, setName] = useState("");
+    const [desc, setDesc] = useState("");
 
   function createSeries() {
     fetch(`${apiBase}/series/`, {
@@ -59,5 +70,5 @@ export default function SeriesList({ series, onSelect, apiBase, onCreated }) {
         </ul>
       </div>
     </div>
-  );
+    );
 }
