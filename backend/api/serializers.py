@@ -1,3 +1,12 @@
+#────────────────────────────────────────────────────────#
+#                                                        #
+# serializers.py                                         #   
+# Serializes the models defined in models.py             #
+#                                                        #
+# Author: Jo Richmond                                    #
+#                                                        #
+#────────────────────────────────────────────────────────#
+
 from rest_framework import serializers
 from .models import Series, DataPoint
 
