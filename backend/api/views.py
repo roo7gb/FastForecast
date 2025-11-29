@@ -36,16 +36,49 @@ class DataPointViewSet(viewsets.ModelViewSet):
         if series_name:
             qs = qs.filter(series__name=series_name)
         return qs
+    
+# ─────────────────────────────
+# ADD SERIES
+# ─────────────────────────────
+@api_view(["POST"])
+def upload_timeseries_view(request):
+    description = request.data.get("description")
+    points = request.data.get("points", [])
+    title = request.data.get("title")
+
+
+    if not title:
+        return Response({"error": "title is required"}, status=400)
+
+    if not isinstance(points, list) or len(points) == 0:
+        return Response({"error": "points must be a non-empty list"}, status=400)
+
+    # Create series
+    series = Series.objects.create(name=title, description=description)
+
+    # Build DataPoint objects
+    to_create = []
+    for p in points:
+        try:
+            ts = p["timestamp"]
+            val = float(p["value"])
+        except Exception:
+            return Response(
+                {"error": f"Invalid point format: {p}"},
+                status=400
+            )
+
+        to_create.append(DataPoint(series=series, timestamp=ts, value=val))
+
+    DataPoint.objects.bulk_create(to_create)
+
+    return Response({"status": "ok", "id": series.id})
 
 # ─────────────────────────────
 # FORECAST
 # ─────────────────────────────
 @api_view(['POST'])
 def forecast_view(request):
-    """
-    Robust Holt-Winters forecasting without use_boxcox.
-    Optional: log-transform for variance stabilization.
-    """
     body = request.data
     series_name = body.get("series")
     if not series_name:

@@ -62,8 +62,8 @@ export default function Forecast() {
             <div style={{display:"flex", gap:20}}>
                 <div style={{width:300}}>
                     <SeriesList series={series} onSelect={loadSeries} apiBase={API_BASE} onCreated={()=>{
-                    // reload list
-                    fetch(`${API_BASE}/series/`).then(r=>r.json()).then(d=>setSeries(d));
+                        // reload list
+                        fetch(`${API_BASE}/series/`).then(r=>r.json()).then(d=>setSeries(d));
                     }}/>
                 </div>
 
