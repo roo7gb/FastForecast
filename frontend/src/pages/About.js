@@ -23,8 +23,30 @@ return (
         <h2>How To Use</h2>
         <br/>
         <p>
-
+            Most of the tools in this site require some fundamental knowledge of statistical concepts. We'll give a crash course
+            on what you need to know to use this app right here!
         </p>
+        <h4>
+            What is a Time Series?
+        </h4>
+        <p>
+            ...
+        </p>
+        <h4>
+            What is an ACF?
+        </h4>
+        <p>
+            ...
+        </p>
+        <h4>
+            What do the 4 graphs in Decomposition mean?
+        </h4>
+        <p>
+            ...
+        </p>
+        <h4>
+            How does the forecasting method used here work?
+        </h4>
         <br/>
 
         <h2>Developers:</h2>
