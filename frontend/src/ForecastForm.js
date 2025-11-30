@@ -33,18 +33,18 @@ export default function ForecastForm({ onForecast }) {
         onForecast(payload);
     };
 
-    return (
-        <form onSubmit={handleSubmit} className="space-y-4 p-4 border rounded-lg">
-            <div>
-                <label>Series Name:</label>
-                <input
-                    type="text"
-                    value={series}
-                    onChange={(e) => setSeries(e.target.value)}
-                    required
-                    className="border p-1 rounded ml-2"
-                />
-            </div>
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4 p-4" style={{ backgroundColor: "transparent", border: "none" }}>
+      <div>
+        <label>Series Name:</label>
+        <input
+          type="text"
+          value={series}
+          onChange={(e) => setSeries(e.target.value)}
+          required
+          className="border p-1 rounded ml-2"
+        />
+      </div>
 
             <div>
                 <label>Trend:</label>

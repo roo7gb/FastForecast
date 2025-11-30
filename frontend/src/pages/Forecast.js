@@ -57,8 +57,8 @@ export default function Forecast() {
     }
 
     return (
-        <div style={{padding:20, fontFamily:"Arial, sans-serif"}}>
-        <h1>Time Series Forecaster</h1>
+        <div className="page-container">
+        <h1 className="page-title">Time Series Forecaster</h1>
             <div style={{display:"flex", gap:20}}>
                 <div style={{width:300}}>
                     <SeriesList series={series} onSelect={loadSeries} apiBase={API_BASE} onCreated={()=>{

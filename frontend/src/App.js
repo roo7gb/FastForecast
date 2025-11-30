@@ -1,12 +1,10 @@
 /*
-
     App.js
 
     Routes to the other pages in the website, is the virtual DOM node
     that is rendered in index.js.
 
     author: Jo Richmond
-
 */
 
 import React from "react";
