@@ -13,6 +13,7 @@ from .models import Series, DataPoint
 from .serializers import SeriesSerializer, DataPointSerializer
 from django.shortcuts import get_object_or_404
 import pandas as pd
+from pmdarima import auto_arima
 import numpy as np
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 from django.utils.dateparse import parse_datetime
@@ -75,10 +76,10 @@ def upload_timeseries_view(request):
     return Response({"status": "ok", "id": series.id})
 
 # ─────────────────────────────
-# FORECAST
+# FORECAST - HOLT-WINTERS
 # ─────────────────────────────
 @api_view(['POST'])
-def forecast_view(request):
+def HWforecast_view(request):
     body = request.data
     series_name = body.get("series")
     if not series_name:
@@ -109,13 +110,6 @@ def forecast_view(request):
     ts = df['value'].asfreq(pd.infer_freq(df.index) or (df.index[1] - df.index[0]))
     if ts.isnull().any():
         ts = ts.interpolate().ffill().bfill()
-
-    # Optional log transform
-    log_transform = body.get("log_transform", False)
-    if log_transform:
-        if (ts <= 0).any():
-            return Response({"error": "All values must be > 0 for log transform"}, status=400)
-        ts = np.log(ts)
 
     # Forecast parameters
     trend = body.get("trend") or None
@@ -148,11 +142,6 @@ def forecast_view(request):
         )
         forecast = fitted.forecast(forecast_steps)
 
-        # If log-transform was applied, invert it
-        if log_transform:
-            forecast = np.exp(forecast)
-            ts = np.exp(ts)
-
     except Exception as e:
         return Response({"error": "failed to fit model", "detail": str(e)}, status=400)
 
@@ -182,11 +171,104 @@ def forecast_view(request):
             "trend": trend,
             "seasonal": seasonal,
             "seasonal_periods": seasonal_periods,
-            "log_transform": log_transform
         }
     }
 
     return Response(result, status=200)
+
+# ─────────────────────────────
+# FORECAST - AUTOREGRESSIVE INTEGRATED MOVING AVERAGE (ARIMA)
+# ─────────────────────────────
+
+@api_view(['POST'])
+def ARIMAforecast_view(request):
+    body = request.data
+    series_name = body.get("series")
+    if not series_name:
+        return Response({"error": "series is required"}, status=400)
+
+    forecast_steps = int(body.get("forecast_steps", 12))
+    seasonal = bool(body.get("seasonal", False))
+    m = int(body.get("m", 1))
+
+    s = get_object_or_404(Series, name=series_name)
+    points = s.points.all()
+
+    # Apply optional filters
+    if body.get("start"):
+        dt = parse_datetime(body["start"])
+        if dt:
+            points = points.filter(timestamp__gte=dt)
+
+    if body.get("end"):
+        dt = parse_datetime(body["end"])
+        if dt:
+            points = points.filter(timestamp__lte=dt)
+
+    if points.count() < 5:
+        return Response({"error": "not enough data points (min 5 required)"}, status=400)
+
+    # Build dataframe
+    df = pd.DataFrame.from_records(list(points.values("timestamp", "value")))
+    df["timestamp"] = pd.to_datetime(df["timestamp"])
+    df = df.sort_values("timestamp").set_index("timestamp")
+
+    ts = df["value"].astype(float)
+
+    # Infer frequency or fallback
+    freq = pd.infer_freq(ts.index)
+    if freq is None:
+        delta = ts.index[1] - ts.index[0]
+        freq = delta
+
+    # Fit ARIMA automatically
+    try:
+        model = auto_arima(
+            ts,
+            seasonal=seasonal,
+            m=m,
+            trace=True,
+            error_action="ignore",
+            suppress_warnings=True,
+            stepwise=True
+        )
+    except Exception as e:
+        return Response({"error": "failed to fit ARIMA model", "detail": str(e)}, status=400)
+
+    try:
+        forecast_values = model.predict(n_periods=forecast_steps)
+    except Exception as e:
+        return Response({"error": "forecast failed", "detail": str(e)}, status=400)
+
+    # Build forecast timestamps
+    if isinstance(freq, pd.Timedelta):
+        forecast_index = [ts.index[-1] + (i+1) * freq for i in range(forecast_steps)]
+    else:
+        forecast_index = pd.date_range(start=ts.index[-1], periods=forecast_steps+1, freq=freq)[1:]
+
+    # Serialize to JSON
+    history = [
+        {"timestamp": idx.isoformat(), "value": float(v)}
+        for idx, v in ts.items()
+    ]
+
+    forecast = [
+        {"timestamp": idx.isoformat(), "value": float(val)}
+        for idx, val in zip(forecast_index, forecast_values)
+    ]
+
+    return Response({
+        "series": series_name,
+        "model": "auto_arima",
+        "params": {
+            "order": model.order,
+            "seasonal_order": model.seasonal_order,
+            "seasonal": seasonal,
+            "m": m
+        },
+        "history": history,
+        "forecast": forecast
+    })
 
 # ─────────────────────────────
 # AUTOCORRELATION FUNCTION

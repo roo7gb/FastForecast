@@ -38,8 +38,26 @@ export default function Forecast() {
         });
     }
 
-    function runForecast(params) {
-        fetch(`${API_BASE}/forecast/`, {
+    function runForecastHW(params) {
+        fetch(`${API_BASE}/forecast/hw/`, {
+            method: "POST",
+            headers: {"Content-Type":"application/json"},
+            body: JSON.stringify(params)
+        }).then(async res => {
+            if (!res.ok) {
+                const err = await res.json();
+                alert("Forecast failed: " + (err.detail || err.error || JSON.stringify(err)));
+                return;
+            }
+            const data = await res.json();
+            console.log(data);
+            setHistory(data.history);
+            setForecast(data.forecast);
+        }).catch(e => alert("Forecast failed: " + e.message));
+    }
+
+    function runForecastARIMA(params) {
+        fetch(`${API_BASE}/forecast/arima/`, {
             method: "POST",
             headers: {"Content-Type":"application/json"},
             body: JSON.stringify(params)
@@ -73,7 +91,7 @@ export default function Forecast() {
                         <h2>Series: {selectedSeries.name}</h2>
                         <p>{selectedSeries.description}</p>
 
-                        <ForecastForm onForecast={runForecast} />
+                        <ForecastForm onForecastHW={runForecastHW} onForecastARIMA={runForecastARIMA} />
 
                         <ChartView history={history} forecast={forecast} />
                         </>

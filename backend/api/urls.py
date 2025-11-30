@@ -9,7 +9,7 @@
 
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import SeriesViewSet, DataPointViewSet, forecast_view, acf_view, decompose_view, upload_timeseries_view
+from .views import SeriesViewSet, DataPointViewSet, HWforecast_view, ARIMAforecast_view, acf_view, decompose_view, upload_timeseries_view
 from .auth_views import signup_view, login_view, logout_view, user_view, csrf_view
 
 router = DefaultRouter()
@@ -18,7 +18,8 @@ router.register(r"points", DataPointViewSet, basename="points")
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("forecast/", forecast_view, name="forecast"),
+    path("forecast/hw/", HWforecast_view, name="holt-winters forecast"),
+    path("forecast/arima/", ARIMAforecast_view, name="ARIMA forecast"),
     path("acf/", acf_view, name="acf"),
     path("decompose/", decompose_view, name="decompose"),
     path("upload/", upload_timeseries_view, name="upload series"),

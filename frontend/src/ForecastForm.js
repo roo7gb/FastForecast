@@ -11,66 +11,112 @@
 
 import { useState } from "react";
 
-export default function ForecastForm({ onForecast }) {
+export default function ForecastForm({ onForecastHW, onForecastARIMA }) {
+    const [arima, setARIMA] = useState(false);
     const [series, setSeries] = useState("");
     const [trend, setTrend] = useState("add");
     const [seasonal, setSeasonal] = useState("add");
+    const [seasonalARIMA, setSeasonalARIMA] = useState(true);
     const [seasonalPeriods, setSeasonalPeriods] = useState(12);
     const [forecastSteps, setForecastSteps] = useState(12);
-    const [logTransform, setLogTransform] = useState(false);
 
     const handleSubmit = async (e) => {
-    e.preventDefault();
+        e.preventDefault();
 
-    const payload = {
-        series,
-        trend,
-        seasonal,
-        seasonal_periods: seasonalPeriods,
-        forecast_steps: forecastSteps,
-        log_transform: logTransform,
-        };
-        onForecast(payload);
+        if (arima) {
+            const payload = {
+                series,
+                forecast_steps: forecastSteps,
+                seasonal: seasonalARIMA,
+                m: seasonalPeriods
+            };
+            onForecastARIMA(payload);
+        } else {
+            const payload = {
+                series,
+                trend,
+                seasonal,
+                seasonal_periods: seasonalPeriods,
+                forecast_steps: forecastSteps,
+            };
+            onForecastHW(payload);
+        }
+        
     };
 
-  return (
-    <form onSubmit={handleSubmit} className="space-y-4 p-4" style={{ backgroundColor: "transparent", border: "none" }}>
-      <div>
-        <label>Series Name:</label>
-        <input
-          type="text"
-          value={series}
-          onChange={(e) => setSeries(e.target.value)}
-          required
-          className="border p-1 rounded ml-2"
-        />
-      </div>
+    function handleARIMA(e) {
+        if (e == "hw") { setARIMA(false); }
+        if (e == "arima") { setARIMA(true); }
+    }
 
+    function handleSeasonalARIMA(e) {
+        if (e == "false") { setSeasonalARIMA(false); }
+        if (e == "true") { setSeasonalARIMA(true); }
+    }
+
+    return (
+        <form onSubmit={handleSubmit} className="space-y-4 p-4" style={{ backgroundColor: "transparent", border: "none" }}>
             <div>
-                <label>Trend:</label>
+                <label>Forecast Type: </label>
                 <select
-                    value={trend}
-                    onChange={(e) => setTrend(e.target.value)}
+                    onChange={(e) => handleARIMA(e.target.value)}
                     className="border p-1 rounded ml-2"
                 >
-                    <option value="add">Additive</option>
-                    <option value="mul">Multiplicative</option>
-                    <option value="">None</option>
+                    <option value="hw">Holt-Winters</option>
+                    <option value="arima">ARIMA (DO NOT RUN WITH LARGE SETS)</option>
                 </select>
             </div>
-
             <div>
-                <label>Seasonal:</label>
-                <select
-                    value={seasonal}
-                    onChange={(e) => setSeasonal(e.target.value)}
+                <label>Series Name:</label>
+                <input
+                    type="text"
+                    value={series}
+                    onChange={(e) => setSeries(e.target.value)}
+                    required
                     className="border p-1 rounded ml-2"
-                >
-                    <option value="add">Additive</option>
-                    <option value="mul">Multiplicative</option>
-                    <option value="">None</option>
-                </select>
+                />
             </div>
+            {arima ? (
+                <div>
+                    <label>Seasonal ARIMA:</label>
+                    <select
+                        value={seasonal}
+                        onChange={(e) => handleSeasonalARIMA(e.target.value)}
+                        className="border p-1 rounded ml-2"
+                    >
+                        <option value="true">True</option>
+                        <option value="false">False</option>
+                    </select>
+                </div>
+            ) : (
+                <>
+                    <div>
+                        <label>Trend:</label>
+                        <select
+                            value={trend}
+                            onChange={(e) => setTrend(e.target.value)}
+                            className="border p-1 rounded ml-2"
+                        >
+                            <option value="add">Additive</option>
+                            <option value="mul">Multiplicative</option>
+                            <option value="">None</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label>Seasonal:</label>
+                        <select
+                            value={seasonal}
+                            onChange={(e) => setSeasonal(e.target.value)}
+                            className="border p-1 rounded ml-2"
+                        >
+                            <option value="add">Additive</option>
+                            <option value="mul">Multiplicative</option>
+                            <option value="">None</option>
+                        </select>
+                    </div>
+                </>
+            )}
 
             <div>
                 <label>Seasonal Periods:</label>
@@ -92,16 +138,6 @@ export default function ForecastForm({ onForecast }) {
                     min={1}
                     className="border p-1 rounded ml-2 w-20"
                 />
-            </div>
-
-            <div className="flex items-center">
-                <input
-                    type="checkbox"
-                    checked={logTransform}
-                    onChange={(e) => setLogTransform(e.target.checked)}
-                    className="mr-2"
-                />
-                <label>Log-transform (stabilize variance, positive values only)</label>
             </div>
 
             <button
