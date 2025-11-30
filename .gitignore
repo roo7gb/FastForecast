@@ -1,0 +1,7 @@
+/.venv/
+/backend/api/migrations/
+/backend/api/__pycache__/
+/backend/mysite/__pycache__/
+/frontend/node_modules/
+/frontend/build/
+/frontend/.env
