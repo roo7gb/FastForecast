@@ -11,5 +11,9 @@
 */
 
 export default function Home() {
-    return <h1>Welcome to the Dashboard</h1>;
+    return (
+        <div className="page-container">
+            <h1 className="page-title">Welcome to the Dashboard</h1>
+        </div>
+    );
 }

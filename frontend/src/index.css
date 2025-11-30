@@ -29,3 +29,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.page-container {
+    padding: 40px;
+}
+
+.page-title {
+    color: #c77dff;
+    text-shadow: 0 0 12px #b388ff;
+}
+
