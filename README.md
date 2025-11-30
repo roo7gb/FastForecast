@@ -16,9 +16,10 @@ This project is made as the group term project for CPSC475-020 Database Manageme
 6. ~~Autocorreleogram~~
 7. ~~FE login (to protect the DB from FE features)~~
 8. ~~FE user csv uploads (Advanced Feature)~~
-9. Manual addition of time series and points in FE
-10. *Time series comparison (multiple series on one graph)*
-11. *Cross-correlogram*
+9. ~~Manual addition of time series and points in FE~~
+10. ~~Direct SQL statements in FE~~
+11. *Time series comparison (multiple series on one graph)*
+12. *Cross-correlogram*
 
 [^1]: Lines with strikethrough are completed.
     Italicized lines may not be completed, are optional

@@ -20,6 +20,7 @@ export default function Navbar() {
                     <Link to="/forecast">Forecast</Link>
                     <Link to="/acf">ACF</Link>
                     <Link to="/decomposition">Decomposition</Link>
+                    <Link to="/console">SQL Console</Link>
                     <button onClick={logout}>Logout</button>
                 </>
             )}

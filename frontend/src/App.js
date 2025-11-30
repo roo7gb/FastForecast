@@ -16,6 +16,7 @@ import ACF from "./pages/ACF";
 import Decomposition from "./pages/Decomposition";
 import SignupPage from "./pages/Signup";
 import LoginPage from "./pages/Login";
+import SqlConsole from "./pages/SQLConsole";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
@@ -38,6 +39,10 @@ export default function App() {
                     <Route path="/decomposition" element={ 
                         <ProtectedRoute>
                             <Decomposition />
+                        </ProtectedRoute> } />
+                    <Route path="/console" element={
+                        <ProtectedRoute>
+                            <SqlConsole />
                         </ProtectedRoute> } />
                     <Route path="/about" element={<About />} />
                     <Route path="/login" element={<LoginPage />} />

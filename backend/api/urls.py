@@ -11,6 +11,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import SeriesViewSet, DataPointViewSet, HWforecast_view, ARIMAforecast_view, acf_view, decompose_view, upload_timeseries_view
 from .auth_views import signup_view, login_view, logout_view, user_view, csrf_view
+from .sql_view import execute_sql
 
 router = DefaultRouter()
 router.register(r"series", SeriesViewSet, basename="series")
@@ -28,4 +29,5 @@ urlpatterns = [
     path("auth/logout/", logout_view, name="logout"),
     path("auth/user/", user_view, name="user"),
     path("auth/csrf/", csrf_view, name="csrf"),
+    path("sql/execute/", execute_sql, name="execute sql"),
 ]
