@@ -10,9 +10,6 @@
 from django.db import models
 
 class Series(models.Model):
-    """
-    A named time series. You can have multiple series (e.g., 'sales', 'temp_sensor_1').
-    """
     name = models.CharField(max_length=200, unique=True)
     description = models.TextField(blank=True)
 

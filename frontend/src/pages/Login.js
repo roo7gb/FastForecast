@@ -11,23 +11,22 @@
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "../utils/auth";
+import { useAuth } from "../context/AuthContext";
 
 export default function LoginPage() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [msg, setMsg] = useState("");
     const navigate = useNavigate();
+    const { login } = useAuth();
 
-    async function handleSubmit(e) {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const result = await login(username, password);
-        if (result.error) setMsg(result.error);
-        else {
-            setMsg("Login successful!");
-            navigate("/");
-        }
-    }
+        await login(username, password);
+        navigate("/");
+        window.location.reload();
+    };
+
 
     return (
         <div>
