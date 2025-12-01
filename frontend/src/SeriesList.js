@@ -173,7 +173,7 @@ export default function SeriesList({ series, onSelect, apiBase, onCreated }) {
                 {parsedData && (
                     <div style={{ marginTop: 20 }}>
                         <h4>Preview (first 5 rows):</h4>
-                        <pre style={{ background: "#eee", padding: 10 }}>
+                        <pre style={{ background: "#161b22", padding: 10 }}>
                             {JSON.stringify(parsedData.slice(0, 5), null, 2)}
                         </pre>
                     </div>
