@@ -33,32 +33,37 @@ export default function SqlConsole() {
     }
 
     return (
-        <div style={{ padding: 20 }}>
-            <h2>SQL Console</h2>
+        <div className="page-container" style={{ padding: 20 }}>
+            <h1 className="page-title" style={{ textAlign: "center" }}>SQL Console</h1>
+            <div className="glowing-container" style={{
+                maxWidth: "800px",
+                margin: "0 auto",
+                padding: "20px",
+            }}>
+                <select value={type} onChange={e => setType(e.target.value)}>
+                    <option value="SELECT">SELECT</option>
+                    <option value="INSERT">INSERT</option>
+                    <option value="DELETE">DELETE</option>
+                </select>
 
-            <select value={type} onChange={e => setType(e.target.value)}>
-                <option value="SELECT">SELECT</option>
-                <option value="INSERT">INSERT</option>
-                <option value="DELETE">DELETE</option>
-            </select>
+                <textarea
+                    value={sql}
+                    onChange={e => setSql(e.target.value)}
+                    rows={8}
+                    style={{ width: "100%", marginTop: 10 }}
+                    placeholder="Enter SQL..."
+                />
 
-            <textarea
-                value={sql}
-                onChange={e => setSql(e.target.value)}
-                rows={8}
-                style={{ width: "100%", marginTop: 10 }}
-                placeholder="Enter SQL..."
-            />
+                <button onClick={runQuery}>Run SQL</button>
 
-            <button onClick={runQuery}>Run SQL</button>
+                {error && <pre style={{ color: "red" }}>{error}</pre>}
 
-            {error && <pre style={{ color: "red" }}>{error}</pre>}
-
-            {result && (
-                <pre style={{ marginTop: 20 }}>
-                {JSON.stringify(result.rows || result, null, 2)}
-                </pre>
-            )}
+                {result && (
+                    <pre style={{ marginTop: 20 }}>
+                    {JSON.stringify(result.rows || result, null, 2)}
+                    </pre>
+                )}
+            </div>
         </div>
     );
 }
