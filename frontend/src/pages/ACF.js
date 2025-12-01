@@ -117,7 +117,10 @@ export default function AcfPage() {
                 margin: "0 auto",
                 padding: "20px",
             }}>
-                <div style={{ marginBottom: 20 }}>
+                <div style={{ 
+                    justifyContent: "space-evenly",
+                    display: "flex", 
+                }}>
                     <input
                         placeholder="Series name"
                         value={seriesName}

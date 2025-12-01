@@ -1,3 +1,15 @@
+/*
+
+    SQLConsole.js
+
+    Defines the page for the SQL Console as 
+    a React DOM node for rendering in App.js
+    through Routes.
+
+    author: Jo Richmond
+
+*/
+
 import React, { useState } from "react";
 import { getCookie, API_BASE } from "../utils/auth";
 

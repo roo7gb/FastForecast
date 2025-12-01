@@ -1,3 +1,14 @@
+/*
+
+    Navbar.js
+
+    Defines the navigation bar component for
+    page routing through links.
+
+    author: Jo Richmond
+
+*/
+
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
@@ -17,6 +28,7 @@ export default function Navbar() {
             color: "#00f3ff",
             fontWeight: "bolder",
             fontSize: "1rem",
+            marginTop: "1rem"
         }}>
             <Link to="/" style={ linkStyle } >Home</Link>
 

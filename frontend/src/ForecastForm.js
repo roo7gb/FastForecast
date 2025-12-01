@@ -17,6 +17,7 @@ export default function ForecastForm({ onForecastHW, onForecastARIMA }) {
     const [trend, setTrend] = useState("add");
     const [seasonal, setSeasonal] = useState("add");
     const [seasonalARIMA, setSeasonalARIMA] = useState(true);
+    const [seasonalARIMAStr, setSeasonalARIMAStr] = useState("false")
     const [seasonalPeriods, setSeasonalPeriods] = useState(12);
     const [forecastSteps, setForecastSteps] = useState(12);
 
@@ -50,6 +51,7 @@ export default function ForecastForm({ onForecastHW, onForecastARIMA }) {
     }
 
     function handleSeasonalARIMA(e) {
+        setSeasonalARIMAStr(e);
         if (e == "false") { setSeasonalARIMA(false); }
         if (e == "true") { setSeasonalARIMA(true); }
     }
@@ -80,7 +82,7 @@ export default function ForecastForm({ onForecastHW, onForecastARIMA }) {
                 <div>
                     <label>Seasonal ARIMA:</label>
                     <select
-                        value={seasonal}
+                        value={seasonalARIMAStr}
                         onChange={(e) => handleSeasonalARIMA(e.target.value)}
                         className="border p-1 rounded ml-2"
                     >

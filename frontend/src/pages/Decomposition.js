@@ -79,7 +79,7 @@ function makeSeries(data, label) {
 
 export default function Decomposition() {
     const [seriesName, setSeriesName] = useState("");
-    const [period, setPeriod] = useState(30);
+    const [period, setPeriod] = useState(12);
     const [model, setModel] = useState("additive");
 
     const [result, setResult] = useState(null);
@@ -107,7 +107,10 @@ export default function Decomposition() {
                 margin: "0 auto",
                 padding: "20px",
             }}>
-                <div style={{ marginBottom: 20 }}>
+                <div style={{ 
+                    justifyContent: "space-evenly",
+                    display: "flex", 
+                }}>
                     <input
                         placeholder="Series name"
                         value={seriesName}
