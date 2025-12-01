@@ -14,6 +14,7 @@ import SeriesList from "../SeriesList";
 import ForecastForm from "../ForecastForm";
 import ChartView from "../ChartView";
 import { API_BASE } from "../utils/auth";
+import "../App.css";
 
 export default function Forecast() {
     const [series, setSeries] = useState([]);
@@ -76,28 +77,34 @@ export default function Forecast() {
 
     return (
         <div className="page-container">
-        <h1 className="page-title">Time Series Forecaster</h1>
-            <div style={{display:"flex", gap:20}}>
-                <div style={{width:300}}>
-                    <SeriesList series={series} onSelect={loadSeries} apiBase={API_BASE} onCreated={()=>{
-                        // reload list
-                        fetch(`${API_BASE}/series/`).then(r=>r.json()).then(d=>setSeries(d));
-                    }}/>
-                </div>
+            <h1 className="page-title" style={{ textAlign: "center" }}>Time Series Forecaster</h1>
+            <div className="glowing-container" style={{
+                maxWidth: "1200px",
+                margin: "0 auto",
+                padding: "20px",
+            }}>
+                <div style={{display:"flex", gap:20}}>
+                    <div style={{width:300}}>
+                        <SeriesList series={series} onSelect={loadSeries} apiBase={API_BASE} onCreated={()=>{
+                            // reload list
+                            fetch(`${API_BASE}/series/`).then(r=>r.json()).then(d=>setSeries(d));
+                        }}/>
+                    </div>
 
-                <div style={{flex:1}}>
-                    {selectedSeries ? (
-                        <>
-                        <h2>Series: {selectedSeries.name}</h2>
-                        <p>{selectedSeries.description}</p>
+                    <div style={{flex:1}}>
+                        {selectedSeries ? (
+                            <>
+                            <h2>Series: {selectedSeries.name}</h2>
+                            <p>{selectedSeries.description}</p>
 
-                        <ForecastForm onForecastHW={runForecastHW} onForecastARIMA={runForecastARIMA} />
+                            <ForecastForm onForecastHW={runForecastHW} onForecastARIMA={runForecastARIMA} />
 
-                        <ChartView history={history} forecast={forecast} />
-                        </>
-                    ) : (
-                        <div>Select a series to view and forecast</div>
-                    )}
+                            <ChartView history={history} forecast={forecast} />
+                            </>
+                        ) : (
+                            <div>Select a series to view and forecast</div>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

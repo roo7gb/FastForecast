@@ -25,6 +25,7 @@ import {
     Legend
 } from "chart.js";
 import { API_BASE } from "../utils/auth";
+import { neonGlowPlugin } from "../utils/neonglow";
 
 ChartJS.register(
     CategoryScale,
@@ -33,7 +34,8 @@ ChartJS.register(
     BarController,
     Tooltip,
     Legend,
-    annotationPlugin
+    annotationPlugin,
+    neonGlowPlugin
 );
 
 export default function AcfPage() {
@@ -52,7 +54,7 @@ export default function AcfPage() {
                         type: "line",
                         yMin: ciUpper,
                         yMax: ciUpper,
-                        borderColor: "#FF6F61",
+                        borderColor: "#FF007F",
                         borderWidth: 1.5,
                         borderDash: [5, 5],
                         label: {
@@ -64,7 +66,7 @@ export default function AcfPage() {
                         type: "line",
                         yMin: ciLower,
                         yMax: ciLower,
-                        borderColor: "#FF6F61",
+                        borderColor: "#FF007F",
                         borderWidth: 1.5,
                         borderDash: [5, 5],
                         label: {
@@ -98,38 +100,46 @@ export default function AcfPage() {
         labels: acfData.map(d => d.lag),
         datasets: [
             {
-            label: "ACF",
-            data: acfData.map(d => d.acf),
-            borderColor: "#8884d8",
-            backgroundColor: "#8884d8",
-            borderWidth: 1
+                label: "ACF",
+                data: acfData.map(d => d.acf),
+                borderWidth: 1,
+                borderColor: "#00F3FF",       // Neon Cyan
+                backgroundColor: "#00F3FF",
             }
         ]
     } : null;
 
     return (
-        <div>
-            <h1>Autocorrelation Function (ACF)</h1>
+        <div className="page-container">
+            <h1 className="page-title" style={{ textAlign: "center" }}>Autocorrelation Function (ACF)</h1>
+            <div className="glowing-container" style={{
+                maxWidth: "800px",
+                margin: "0 auto",
+                padding: "20px",
+            }}>
+                <div style={{ 
+                    justifyContent: "space-evenly",
+                    display: "flex", 
+                }}>
+                    <input
+                        placeholder="Series name"
+                        value={seriesName}
+                        onChange={e => setSeriesName(e.target.value)}
+                    />
+                    <input
+                        type="number"
+                        value={nlags}
+                        onChange={e => setNlags(e.target.value)}
+                    />
+                    <button onClick={runACF}>Compute ACF</button>
+                </div>
 
-            <div style={{ marginBottom: 20 }}>
-                <input
-                    placeholder="Series name"
-                    value={seriesName}
-                    onChange={e => setSeriesName(e.target.value)}
-                />
-                <input
-                    type="number"
-                    value={nlags}
-                    onChange={e => setNlags(e.target.value)}
-                />
-                <button onClick={runACF}>Compute ACF</button>
+                {chartData && (
+                    <div style={{ height: 450 }}>
+                    <Bar data={chartData} options={options} />
+                </div>
+                )}
             </div>
-
-            {chartData && (
-                <div style={{ height: 450 }}>
-                <Bar data={chartData} options={options} />
-            </div>
-            )}
         </div>
     );
 }

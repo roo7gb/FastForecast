@@ -124,6 +124,7 @@ export default function SeriesList({ series, onSelect, apiBase, onCreated }) {
             setCsvText("");
             setParsedData(null);
             setError("");
+            onCreated();
 
         } catch (err) {
             setError("Request error: " + err.message);

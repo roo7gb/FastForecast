@@ -20,6 +20,7 @@ import SqlConsole from "./pages/SQLConsole";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
+import Help from "./pages/Help";
 
 export default function App() {
     return (
@@ -45,6 +46,7 @@ export default function App() {
                             <SqlConsole />
                         </ProtectedRoute> } />
                     <Route path="/about" element={<About />} />
+                    <Route path="/help" element={ <Help /> } />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/signup" element={<SignupPage />} />
                 </Routes>

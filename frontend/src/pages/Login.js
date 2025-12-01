@@ -29,14 +29,20 @@ export default function LoginPage() {
 
 
     return (
-        <div>
-            <h2>Login</h2>
-            <form onSubmit={handleSubmit}>
-                <input value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" />
-                <input value={password} onChange={e => setPassword(e.target.value)} type="password" placeholder="Password" />
-                <button type="submit">Log In</button>
-            </form>
-            <p>{msg}</p>
+        <div className="page-container">
+            <h1 className="page-title" style={{ textAlign: "center" }}>Login</h1>
+            <div className="glowing-container" style={{
+                maxWidth: "800px",
+                margin: "0 auto",
+                padding: "20px",
+            }}>
+                <form onSubmit={handleSubmit}>
+                    <input value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" />
+                    <input value={password} onChange={e => setPassword(e.target.value)} type="password" placeholder="Password" />
+                    <button type="submit">Log In</button>
+                </form>
+                <p>{msg}</p>
+            </div>
         </div>
     );
 }

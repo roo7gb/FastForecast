@@ -1,4 +1,14 @@
-# backend/api/views_sql.py
+#────────────────────────────────────────────────────────#
+#                                                        #
+# sql_view.py                                            #   
+# Creates a view for direct SQL usage for the database   #
+# and protects against SQL injection, dangerous          #
+# statement types, and multiple statements.              #
+#                                                        #
+# Author: Jo Richmond                                    #
+#                                                        #
+#────────────────────────────────────────────────────────#
+
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.db import connection
