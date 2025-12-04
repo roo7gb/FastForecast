@@ -24,6 +24,7 @@ export default function ForecastForm({ onForecastHW, onForecastARIMA }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // JSON payloads
         if (arima) {
             const payload = {
                 series,
@@ -45,11 +46,13 @@ export default function ForecastForm({ onForecastHW, onForecastARIMA }) {
         
     };
 
+    // the hw prop function from forecast
     function handleARIMA(e) {
         if (e == "hw") { setARIMA(false); }
         if (e == "arima") { setARIMA(true); }
     }
 
+    // the arima prop function from forecast
     function handleSeasonalARIMA(e) {
         setSeasonalARIMAStr(e);
         if (e == "false") { setSeasonalARIMA(false); }

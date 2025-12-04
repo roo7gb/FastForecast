@@ -47,10 +47,11 @@ def upload_timeseries_view(request):
     points = request.data.get("points", [])
     title = request.data.get("title")
 
-
+    # Title is required
     if not title:
         return Response({"error": "title is required"}, status=400)
 
+    # Points are required
     if not isinstance(points, list) or len(points) == 0:
         return Response({"error": "points must be a non-empty list"}, status=400)
 
@@ -161,8 +162,6 @@ def HWforecast_view(request):
     forecast_list = [{"timestamp": ts_idx.isoformat(), "value": float(val)}
                      for ts_idx, val in zip(forecast_index, forecast.values)]
     history = [{"timestamp": idx.isoformat(), "value": float(v)} for idx, v in ts.items()]
-    print(connection.queries)  # Debug: print all SQL queries executed
-    connection.queries.clear()  # Clear queries after printing
     result = {
         "series": series_name,
         "history": history,
@@ -298,6 +297,7 @@ def acf_view(request):
     if points.count() < 2:
         return Response({"error": "not enough data points"}, status=400)
 
+    # Build the dataframe
     df = pd.DataFrame(list(points.values("timestamp", "value")))
     df["timestamp"] = pd.to_datetime(df["timestamp"])
     df = df.sort_values("timestamp").set_index("timestamp")
@@ -305,6 +305,7 @@ def acf_view(request):
 
     N = len(ts)
 
+    # Run the autocorrelation function
     try:
         acf_values = acf(ts, nlags=nlags, fft=True)
     except Exception as e:
@@ -312,6 +313,7 @@ def acf_view(request):
 
     ci = 1.96 / (N ** 0.5)
 
+    # Serialize to JSON
     data = [{"lag": i, "acf": float(acf_values[i])} for i in range(len(acf_values))]
 
     return Response({
@@ -327,14 +329,6 @@ def acf_view(request):
 # ─────────────────────────────
 @api_view(["POST"])
 def decompose_view(request):
-    """
-    POST /api/decompose/
-    {
-      "series": "sales",
-      "period": 12,
-      "model": "additive" | "multiplicative"
-    }
-    """
     body = request.data
     name = body.get("series")
     period = int(body.get("period", 12))
@@ -349,12 +343,14 @@ def decompose_view(request):
     if points.count() < period * 2:
         return Response({"error": "not enough data to decompose"}, status=400)
 
+    # Build the dataframe
     df = pd.DataFrame(list(points.values("timestamp", "value")))
     df["timestamp"] = pd.to_datetime(df["timestamp"])
     df = df.sort_values("timestamp").set_index("timestamp")
 
     ts = df["value"]
 
+    # Run Decomposition
     try:
         result = seasonal_decompose(ts, model=model, period=period)
     except Exception as e:
@@ -367,6 +363,7 @@ def decompose_view(request):
             for idx, val in series.items()
         ]
 
+    # Return
     return Response({
         "series": name,
         "observed": to_list(result.observed),

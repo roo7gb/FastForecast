@@ -19,6 +19,7 @@ export default function SeriesList({ series, onSelect, apiBase, onCreated }) {
     const [parsedData, setParsedData] = useState(null);
     const [error, setError] = useState("");
 
+    // ISO format timestamp parser
     function parseIsoTimestamp(input) {
         const trimmed = input.trim();
 
@@ -35,6 +36,7 @@ export default function SeriesList({ series, onSelect, apiBase, onCreated }) {
         return null;
     }
 
+    // CSV validation
     function validateCsv(text) {
         const rows = text.split(/\r?\n/).filter((r) => r.trim() !== "");
         const result = [];
@@ -65,6 +67,7 @@ export default function SeriesList({ series, onSelect, apiBase, onCreated }) {
         return { ok: true, data: result };
     }
 
+    // upload handler
     function handleFileUpload(e) {
         const file = e.target.files[0];
         if (!file) return;
@@ -86,6 +89,7 @@ export default function SeriesList({ series, onSelect, apiBase, onCreated }) {
         reader.readAsText(file);
     }
 
+    // submission handler
     async function handleSubmit(e) {
         e.preventDefault();
 

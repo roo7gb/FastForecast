@@ -26,6 +26,7 @@ import { API_BASE } from "../utils/auth";
 import "../App.css"
 import { neonGlowPlugin } from "../utils/neonglow";
 
+// Register Chart.js chart components and plugins
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -37,6 +38,7 @@ ChartJS.register(
     neonGlowPlugin
 );
 
+// Define Chart.js chart options
 const options = {
     scales: {
         x: {
@@ -56,6 +58,8 @@ const options = {
     }
 };
 
+// Chart construction function
+// It is a function in this file because there are multiple charts on this page
 function makeSeries(data, label) {
     return {
         labels: data.map(d => d.timestamp),
@@ -63,9 +67,9 @@ function makeSeries(data, label) {
             {
                 label,
                 data: data.map(d => ({ x: d.timestamp, y: d.value })),
-                borderColor: "#00F3FF",       // Neon Cyan
+                borderColor: "#00F3FF",
                 backgroundColor: "#00F3FF",
-                borderWidth: 1,               // Ultra-thin line
+                borderWidth: 1,
                 tension: 0.4,
                 pointRadius: 0,
                 pointHoverRadius: 4,
@@ -84,6 +88,7 @@ export default function Decomposition() {
 
     const [result, setResult] = useState(null);
 
+    // POST to the decomposition endpoint
     const runDecomposition = async () => {
         const res = await fetch(`${API_BASE}/decompose/`, {
             method: "POST",

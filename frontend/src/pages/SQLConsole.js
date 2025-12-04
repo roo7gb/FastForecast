@@ -23,6 +23,7 @@ export default function SqlConsole() {
         setError("");
         setResult(null);
 
+        // trying a try/catch approach here
         try {
             const res = await fetch(`${API_BASE}/sql/execute/`, {
                 method: "POST",

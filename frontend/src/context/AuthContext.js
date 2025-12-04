@@ -62,6 +62,7 @@ export function AuthProvider({ children }) {
 	);
 }
 
+// For auth verification using this context
 export function useAuth() {
   	return useContext(AuthContext);
 }

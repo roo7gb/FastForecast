@@ -22,6 +22,7 @@ export default function Forecast() {
     const [history, setHistory] = useState([]);
     const [forecast, setForecast] = useState([]);
 
+    // For the series reloading
     useEffect(() => {
         fetch(`${API_BASE}/series/`)
         .then(res => res.json())
@@ -39,6 +40,7 @@ export default function Forecast() {
         });
     }
 
+    // POST to the Holt-Winters endpoint
     function runForecastHW(params) {
         fetch(`${API_BASE}/forecast/hw/`, {
             method: "POST",
@@ -56,7 +58,8 @@ export default function Forecast() {
             setForecast(data.forecast);
         }).catch(e => alert("Forecast failed: " + e.message));
     }
-
+    
+    // POST to the arima endpoint
     function runForecastARIMA(params) {
         fetch(`${API_BASE}/forecast/arima/`, {
             method: "POST",
@@ -96,10 +99,16 @@ export default function Forecast() {
                             <>
                             <h2>Series: {selectedSeries.name}</h2>
                             <p>{selectedSeries.description}</p>
+                            
+                            <ForecastForm
+                                // pass the functions as props to the form component
+                                onForecastHW={runForecastHW} onForecastARIMA={runForecastARIMA} 
+                            />
 
-                            <ForecastForm onForecastHW={runForecastHW} onForecastARIMA={runForecastARIMA} />
-
-                            <ChartView history={history} forecast={forecast} />
+                            <ChartView
+                                // pass the points to the chart element as props
+                                history={history} forecast={forecast} 
+                            />
                             </>
                         ) : (
                             <div>Select a series to view and forecast</div>

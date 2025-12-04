@@ -28,12 +28,14 @@ BLOCKED_PATTERNS = [
     r";",  # prevent multiple statements
 ]
 
+# Determine if the statement is safe (not a blocked pattern)
 def is_safe(sql):
     for pat in BLOCKED_PATTERNS:
         if re.search(pat, sql, re.IGNORECASE):
             return False
     return True
 
+# Determine if the statement targets an allowed table
 def table_allowed(sql):
     sql_lower = sql.lower()
     return any(tbl in sql_lower for tbl in ALLOWED_TABLES)
