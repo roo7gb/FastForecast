@@ -23,6 +23,7 @@ export default function LoginPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         await login(username, password);
+        // nav to home, then reload to refresh navbar
         navigate("/");
         window.location.reload();
     };

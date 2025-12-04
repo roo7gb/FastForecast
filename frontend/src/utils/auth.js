@@ -9,8 +9,11 @@
 
 */
 
+// this const is used for all HTML methods, already prod ready but my env kept not working so
+// a manual or got added
 export const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:8000/api";
 
+// get csrf token
 export async function fetchCSRF() {
     await fetch(`${API_BASE}/auth/csrf/`, {
         method: "GET",
@@ -18,6 +21,7 @@ export async function fetchCSRF() {
     });
 }
 
+// POST to signup endpoint
 export async function signup(username, password) {
     await fetchCSRF();
     const csrftoken = getCookie("csrftoken");
@@ -35,6 +39,7 @@ export async function signup(username, password) {
     return await res.json();
 }
 
+// cookie parsing
 export function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);

@@ -25,9 +25,11 @@ import {
 import 'chartjs-adapter-date-fns';
 import { neonGlowPlugin } from "./utils/neonglow"
 
+// register Chart.js components and plugins
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, TimeScale, Tooltip, Legend, neonGlowPlugin);
 
 export default function ChartView({ history = [], forecast = [] }) {
+	// useMemo because it needs to update as soon as it gets new data
 	const data = useMemo(() => {
 		const historyPoints = history.map(h => ({
 			x: new Date(h.timestamp),
@@ -44,9 +46,9 @@ export default function ChartView({ history = [], forecast = [] }) {
 				{
 					label: "History",
 					data: historyPoints,
-					borderColor: "#00F3FF",       // Neon Cyan
+					borderColor: "#00F3FF",
 					backgroundColor: "#00F3FF",
-					borderWidth: 1,               // Ultra-thin line
+					borderWidth: 1,
 					tension: 0.4,
 					pointRadius: 0,
 					pointHoverRadius: 4,
@@ -57,9 +59,9 @@ export default function ChartView({ history = [], forecast = [] }) {
 				{
 					label: "Forecast",
 					data: forecastPoints,
-					borderColor: "#FF007F",       // Neon Pink
+					borderColor: "#FF007F",
 					backgroundColor: "#FF007F",
-					borderWidth: 1,               // Ultra-thin line
+					borderWidth: 1,
 					tension: 0.4,
 					pointRadius: 0,
 					pointHoverRadius: 4,
@@ -74,6 +76,7 @@ export default function ChartView({ history = [], forecast = [] }) {
 	const purple = "#a855f7";
 	const gridPurple = "rgba(168, 85, 247, 0.2)";
 
+	// update the x-axis when there is new data
 	const options = useMemo(() => {
 		const firstDate = history.length ? new Date(history[0].timestamp) : null;
 		const lastHistoryDate = history.length ? new Date(history[history.length - 1].timestamp) : null;

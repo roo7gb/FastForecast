@@ -30,6 +30,7 @@ def signup_view(request):
     username = request.data.get("username")
     password = request.data.get("password")
 
+    # Check if the username has been used yet
     if User.objects.filter(username=username).exists():
         return JsonResponse({"error": "Username exists"}, status=400)
 

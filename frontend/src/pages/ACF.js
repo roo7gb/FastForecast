@@ -27,6 +27,7 @@ import {
 import { API_BASE } from "../utils/auth";
 import { neonGlowPlugin } from "../utils/neonglow";
 
+// Register Chart.js parts and pluginss
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -45,6 +46,7 @@ export default function AcfPage() {
     const [ciUpper, setCiUpper] = useState(1.0);
     const [ciLower, setCiLower] = useState(-1.0);
 
+    // Define the Chart.js chart options
     const options = {
         responsive: true,
         plugins: {
@@ -83,6 +85,7 @@ export default function AcfPage() {
         }
     };
 
+    // POST to the ACF endpoint
     const runACF = async () => {
         const res = await fetch(`${API_BASE}/acf/`, {
             method: "POST",
@@ -96,6 +99,7 @@ export default function AcfPage() {
         setCiLower(data.ci_lower);
     };
 
+    // Define the data for the Chart.js chart
     const chartData = acfData ? {
         labels: acfData.map(d => d.lag),
         datasets: [
@@ -103,7 +107,7 @@ export default function AcfPage() {
                 label: "ACF",
                 data: acfData.map(d => d.acf),
                 borderWidth: 1,
-                borderColor: "#00F3FF",       // Neon Cyan
+                borderColor: "#00F3FF",
                 backgroundColor: "#00F3FF",
             }
         ]

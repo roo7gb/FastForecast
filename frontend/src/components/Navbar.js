@@ -15,6 +15,7 @@ import { useAuth } from "../context/AuthContext";
 export default function Navbar() {
     const { user, logout } = useAuth();
 
+    //Defining a style for the links here and here alone (Hence why it is not in a css file)
     const linkStyle = {
         margin: "1rem",
         textDecoration: "none",
