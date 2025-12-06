@@ -5,13 +5,19 @@
 ### Prerequisites
 
 - Operating System:
+
     - This project was written on a WSL2 Ubuntu instance, specifically Ubuntu 24.04.3 LTS. There should not be any compatibility issues.
+
     - Docker is run through WSL2, so there may be build differences if this is run on a non-windows or a different architecture. I don't know, haven't tested it.
 
 - Required Technologies:
+
     - Docker Desktop
+
         - You need this to run Docker Compose
+
     - Git
+    
         - You need this to clone the repository
 
 Other than that, there are no prerequisites. This project uses Docker, so the required libraries will be installed into the containers, not your computer.
