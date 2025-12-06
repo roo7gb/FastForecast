@@ -47,7 +47,7 @@ Other than that, there are no prerequisites. This project uses Docker, so the re
 6. Once Docker is started, build and launch the site
 
 ```bash
-    docker-compose up --build
+    docker compose up --build
 ```
 
 7. Once everything has started, go to localhost:3000/ in your browser and the main page will be there
