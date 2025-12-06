@@ -89,10 +89,10 @@ the command:
 
 The .csv file must have this format:
 
-timestamp,value,
-YYYY-MM-DD,value1,
-YYYY-MM-DD,value2,
-...
+timestamp,value,\
+YYYY-MM-DD,value1,\
+YYYY-MM-DD,value2,\
+...\
 ...
 
 with the first line being the shown header. Timestamps MUST be in an ISO format.
@@ -146,10 +146,10 @@ This feature is explained in the Help page in the front end site (localhost:3000
 
 For this feature, .csv files must be forematted as such:
 
-timestamp,value,
-YYYY-MM-DD,value1,
-YYYY-MM-DD,value2,
-...
+timestamp,value,\
+YYYY-MM-DD,value1,\
+YYYY-MM-DD,value2,\
+...\
 ...
 
 The first line of the .csv file will always be treated as a header, and the timestamps MUST be in an ISO format.
