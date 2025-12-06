@@ -33,7 +33,7 @@ Other than that, there are no prerequisites. This project uses Docker, so the re
 3. Run the command 
     
 ```bash
-    git clone repositoryurlhere
+    git clone https://github.com/roo7gb/FastForecast.git
 ```
 
 4.  Go to the new project directory
