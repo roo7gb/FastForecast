@@ -186,4 +186,4 @@ Table Name: api_datapoint
 id auto-increments, so it is unique for every point.
 series_id uses the id attribute from the api_series table to associate points with their series, serving as a FOREIGN KEY.
 
-###### Written by Jocelyn Richmond
+###### Written by Jo Richmond
