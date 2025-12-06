@@ -21,6 +21,8 @@
         - You need this to clone the repository
 
 Other than that, there are no prerequisites. This project uses Docker, so the required libraries will be installed into the containers, not your computer.
+There is no .env file to configure, as I kinda gave up on trying to get it to work globally and it just became a hassle. This project doesn't have any sensitive
+information in it so it's fine to have it hardcoded, I'm just acknowledging my own bad practice here.
 
 ### Startup
 
@@ -59,7 +61,7 @@ Other than that, there are no prerequisites. This project uses Docker, so the re
 #### Admin Panel
 
 Utilizing the server-side exclusive features requires an account registered in the admin panel. You can create an admin account
-by going to the Exec page of the backend container and running a command.
+by going to the Exec page of the backend container and running a command. The admin panel is hosted at localhost:8000/admin/.
     
 ![Docker Desktop App Container](https://i.imgur.com/ERafAZp.png)
 
