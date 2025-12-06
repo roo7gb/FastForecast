@@ -22,27 +22,27 @@ Other than that, there are no prerequisites. This project uses Docker, so the re
 
 2. Copy the repository's link under the HTTPS section of the code tab
     
-    ![Link location in the repository](https://i.imgur.com/qM0ZNA2.png)
+![Link location in the repository](https://i.imgur.com/qM0ZNA2.png)
 
 3. Run the command 
     
-    ```bash
-        git clone repositoryurlhere
-    ```
+```bash
+    git clone repositoryurlhere
+```
 
 4.  Go to the new project directory
 
-    ```bash
-        cd FastForecast/
-    ```
+```bash
+    cd FastForecast/
+```
 
 5. Run Docker Desktop
 
 6. Once Docker is started, build and launch the site
 
-    ```bash
-        docker-compose up --build
-    ```
+```bash
+    docker-compose up --build
+```
 
 7. Once everything has started, go to localhost:3000/ in your browser and the main page will be there
 
@@ -55,37 +55,37 @@ Other than that, there are no prerequisites. This project uses Docker, so the re
 Utilizing the server-side exclusive features requires an account registered in the admin panel. You can create an admin account
 by going to the Exec page of the backend container and running a command.
     
-    ![Docker Desktop App Container](https://i.imgur.com/ERafAZp.png)
+![Docker Desktop App Container](https://i.imgur.com/ERafAZp.png)
 
-    ![Docker Desktop Backend Container](https://i.imgur.com/vLCPHNU.png)
+![Docker Desktop Backend Container](https://i.imgur.com/vLCPHNU.png)
 
-    ![Docker Desktop Backend Container Command Line](https://i.imgur.com/GsetLiP.png)
+![Docker Desktop Backend Container Command Line](https://i.imgur.com/GsetLiP.png)
 
-    ![Docker Desktop Backend CLI Command](https://i.imgur.com/psWKV8r.png)
+![Docker Desktop Backend CLI Command](https://i.imgur.com/psWKV8r.png)
 
-    ![Docker Desktop Backend CLI Createsuperuser Username](https://i.imgur.com/DL5SMfM.png)
+![Docker Desktop Backend CLI Createsuperuser Username](https://i.imgur.com/DL5SMfM.png)
 
-    ![Docker Desktop Backend CLI Createsuperuser Email](https://i.imgur.com/WAAszkm.png)
+![Docker Desktop Backend CLI Createsuperuser Email](https://i.imgur.com/WAAszkm.png)
 
-    ![Docker Desktop Backend CLI Createsuperuser Password](https://i.imgur.com/QZFFSk8.png)
+![Docker Desktop Backend CLI Createsuperuser Password](https://i.imgur.com/QZFFSk8.png)
 
-    ![Docker Desktop Backend CLI Createsuperuser Done](https://i.imgur.com/K7krar7.png)
+![Docker Desktop Backend CLI Createsuperuser Done](https://i.imgur.com/K7krar7.png)
 
 From here, you can edit the database by going to the datasets listed on the page and deleting or editing records.
 There are also user and group records here.
 
-    ![Admin Page](https://i.imgur.com/Q4KWCS3.png)
+![Admin Page](https://i.imgur.com/Q4KWCS3.png)
 
-    ![Logged In Admin Page](https://i.imgur.com/hNaqCzS.png)
+![Logged In Admin Page](https://i.imgur.com/hNaqCzS.png)
 
 #### CLI .csv Uploads
 
 To use this, move whatever .csv you want to upload into the database into the data folder. You can get there from the root folder through
 the command:
 
-    ```bash
-        cd backend/data/
-    ```
+```bash
+    cd backend/data/
+```
 
 The .csv file must have this format:
 
@@ -102,15 +102,15 @@ backend container's Exec page. If you skipped the Admin Panel section, check the
 
 Once here, run this command in the CLI-
 
-    ```bash
-        python manage.py import_csv SeriesNameHere "Description Here" ./data/CSVFileName.csv
-    ```
+```bash
+    python manage.py import_csv SeriesNameHere "Description Here" ./data/CSVFileName.csv
+```
 
 and it should be imported into the database.
 
-    ![Docker Desktop Backend CLI Command](https://i.imgur.com/tdmlz1d.png)
+![Docker Desktop Backend CLI Command](https://i.imgur.com/tdmlz1d.png)
 
-    ![Docker Desktop Backend CLI .csv Import Complete](https://i.imgur.com/Tq9D115.png)
+![Docker Desktop Backend CLI .csv Import Complete](https://i.imgur.com/Tq9D115.png)
 
 ### Basic Features
 
