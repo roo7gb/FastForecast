@@ -15,7 +15,6 @@ import { API_BASE, getCookie } from "./utils/auth";
 export default function SeriesList({ series, onSelect, apiBase, onCreated }) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [csvText, setCsvText] = useState("");
     const [parsedData, setParsedData] = useState(null);
     const [error, setError] = useState("");
 
@@ -75,7 +74,6 @@ export default function SeriesList({ series, onSelect, apiBase, onCreated }) {
         const reader = new FileReader();
         reader.onload = () => {
             const text = reader.result;
-            setCsvText(text);
 
             const parsed = validateCsv(text);
             if (!parsed.ok) {
@@ -125,7 +123,6 @@ export default function SeriesList({ series, onSelect, apiBase, onCreated }) {
             alert("Series uploaded successfully!");
             setTitle("");
             setDescription("");
-            setCsvText("");
             setParsedData(null);
             setError("");
             onCreated();
