@@ -6,6 +6,8 @@ and the Air Quality Index. Due to the fact that these data sets are somewhat dif
 
 This project is made as the group term project for CPSC475-020 Database Management at the University of Akron, Fall 2025.
 
+For setup and usage documentation, look at Setup-Usage_Instructions.md in the repo.
+
 ### User Features[^1]
 
 1. Graphical Display of Time Series Data
