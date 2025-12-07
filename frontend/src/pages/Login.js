@@ -16,7 +16,6 @@ import { useAuth } from "../context/AuthContext";
 export default function LoginPage() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [msg, setMsg] = useState("");
     const navigate = useNavigate();
     const { login } = useAuth();
 
@@ -46,7 +45,6 @@ export default function LoginPage() {
                         <input value={password} onChange={e => setPassword(e.target.value)} type="password" placeholder="Password" />
                         <button type="submit">Log In</button>
                     </form>
-                    <p>{msg}</p>
                 </div>
             </div>
         </div>

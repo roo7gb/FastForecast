@@ -10,7 +10,6 @@
 #────────────────────────────────────────────────────────#
 
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from django.db import connection
 import json
 import re
@@ -41,7 +40,6 @@ def table_allowed(sql):
     return any(tbl in sql_lower for tbl in ALLOWED_TABLES)
 
 
-@csrf_exempt
 def execute_sql(request):
     if request.method != "POST":
         return JsonResponse({"error": "POST only"}, status=405)
