@@ -125,16 +125,22 @@ export default function AcfPage() {
                     justifyContent: "space-evenly",
                     display: "flex", 
                 }}>
-                    <input
-                        placeholder="Series name"
-                        value={seriesName}
-                        onChange={e => setSeriesName(e.target.value)}
-                    />
-                    <input
-                        type="number"
-                        value={nlags}
-                        onChange={e => setNlags(e.target.value)}
-                    />
+                    <div>
+                        <label>Series Name: </label>
+                        <input
+                            placeholder="Series name"
+                            value={seriesName}
+                            onChange={e => setSeriesName(e.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <label>Number of Lags: </label>
+                        <input
+                            type="number"
+                            value={nlags}
+                            onChange={e => setNlags(e.target.value)}
+                        />
+                    </div>
                     <button onClick={runACF}>Compute ACF</button>
                 </div>
 
