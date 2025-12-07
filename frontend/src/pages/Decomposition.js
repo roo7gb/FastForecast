@@ -50,7 +50,7 @@ const options = {
         title: { display: true, text: "Time" },
         },
         y: {
-            title: { display: true, text: "Concentration" },
+            title: { display: true, text: "Value" },
             beginAtZero: false,
             min: undefined,
             max: undefined
