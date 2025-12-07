@@ -59,7 +59,7 @@ const options = {
 };
 
 // Chart construction function
-// It is a function in this file because there are multiple charts on this page
+// It is a function in this file because there are no live updates
 function makeSeries(data, label) {
     return {
         labels: data.map(d => d.timestamp),

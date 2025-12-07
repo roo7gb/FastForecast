@@ -146,8 +146,8 @@ export default function AcfPage() {
 
                 {chartData && (
                     <div style={{ height: 450 }}>
-                    <Bar data={chartData} options={options} />
-                </div>
+                        <Bar data={chartData} options={options} />
+                    </div>
                 )}
             </div>
         </div>
