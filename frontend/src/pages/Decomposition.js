@@ -116,20 +116,29 @@ export default function Decomposition() {
                     justifyContent: "space-evenly",
                     display: "flex", 
                 }}>
-                    <input
-                        placeholder="Series name"
-                        value={seriesName}
-                        onChange={(e) => setSeriesName(e.target.value)}
-                    />
-                    <input
-                        type="number"
-                        value={period}
-                        onChange={(e) => setPeriod(e.target.value)}
-                    />
-                    <select value={model} onChange={(e) => setModel(e.target.value)}>
-                        <option value="additive">Additive</option>
-                        <option value="multiplicative">Multiplicative</option>
-                    </select>
+                    <div>
+                        <label>Series Name: </label>
+                        <input
+                            placeholder="Series name"
+                            value={seriesName}
+                            onChange={(e) => setSeriesName(e.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <label>Seasonal Periods: </label>
+                        <input
+                            type="number"
+                            value={period}
+                            onChange={(e) => setPeriod(e.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <label>Seasonal: </label>
+                        <select value={model} onChange={(e) => setModel(e.target.value)}>
+                            <option value="additive">Additive</option>
+                            <option value="multiplicative">Multiplicative</option>
+                        </select>
+                    </div>
 
                     <button onClick={runDecomposition} style={{ marginLeft: 15 }}>
                         Decompose
